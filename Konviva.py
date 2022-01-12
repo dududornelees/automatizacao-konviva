@@ -38,9 +38,9 @@ for arquivo in arquivos:
 
 # Mensagem final
 print("")
-print("****************************************************")
-print("*** Todos os programas foram baixados e abertos! ***")
-print("****************************************************")
+print("******************************************")
+print("*** Todos os programas foram baixados! ***")
+print("******************************************")
 
 print("")
 input("Enter para finalizar...")
