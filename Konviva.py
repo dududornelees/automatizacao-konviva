@@ -1,3 +1,4 @@
+from clint.textui import progress
 import requests
 import os
 
@@ -21,11 +22,19 @@ def baixar_arquivo(nome_programa, endereco, url):
 
     if resposta.status_code == requests.codes.OK:
         with open(endereco, 'wb') as novo_arquivo:
-            novo_arquivo.write(resposta.content)            
+            tamanho_total = int(resposta.headers.get('content-length'))
+
+            for chunk in progress.bar(resposta.iter_content(chunk_size = 1024), expected_size=(tamanho_total / 1024) + 1):
+                if chunk:
+                    novo_arquivo.write(chunk)
+                    novo_arquivo.flush()
+            novo_arquivo.write(resposta.content)
         print('Download finalizado, salvo como: {}'.format(endereco))
+        print('')
     else:
         resposta.raise_for_status()
         print('Ocorreu erro no download do programa: {}'.format(nome_programa))
+        print('')
 
 def abrir_arquivo(endereco):
     os.startfile(os. getcwd() + '/' + endereco)
